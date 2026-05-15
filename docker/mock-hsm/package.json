@@ -1,0 +1,10 @@
+{
+  "name": "mock-hsm",
+  "version": "1.0.0",
+  "description": "Mock Hardware Security Module for development",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {}
+}

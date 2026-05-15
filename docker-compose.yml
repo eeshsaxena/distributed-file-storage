@@ -1,0 +1,113 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: dfs-postgres
+    environment:
+      POSTGRES_USER: dfs_user
+      POSTGRES_PASSWORD: dfs_password
+      POSTGRES_DB: distributed_file_storage
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dfs_user -d distributed_file_storage"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: dfs-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mock-hsm:
+    image: node:20-alpine
+    container_name: dfs-mock-hsm
+    working_dir: /app
+    volumes:
+      - ./docker/mock-hsm:/app
+    ports:
+      - "3001:3001"
+    command: sh -c "npm install && node server.js"
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3001/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  storage-node-1:
+    image: node:20-alpine
+    container_name: dfs-storage-node-1
+    working_dir: /app
+    volumes:
+      - ./dist:/app/dist
+      - ./node_modules:/app/node_modules
+      - storage_node_1_data:/data
+    environment:
+      NODE_ID: storage-node-1
+      AVAILABILITY_ZONE: us-east-1a
+      STORAGE_PATH: /data
+      PORT: 4001
+    ports:
+      - "4001:4001"
+    depends_on:
+      - postgres
+      - redis
+
+  storage-node-2:
+    image: node:20-alpine
+    container_name: dfs-storage-node-2
+    working_dir: /app
+    volumes:
+      - ./dist:/app/dist
+      - ./node_modules:/app/node_modules
+      - storage_node_2_data:/data
+    environment:
+      NODE_ID: storage-node-2
+      AVAILABILITY_ZONE: us-east-1b
+      STORAGE_PATH: /data
+      PORT: 4002
+    ports:
+      - "4002:4002"
+    depends_on:
+      - postgres
+      - redis
+
+  storage-node-3:
+    image: node:20-alpine
+    container_name: dfs-storage-node-3
+    working_dir: /app
+    volumes:
+      - ./dist:/app/dist
+      - ./node_modules:/app/node_modules
+      - storage_node_3_data:/data
+    environment:
+      NODE_ID: storage-node-3
+      AVAILABILITY_ZONE: us-east-1c
+      STORAGE_PATH: /data
+      PORT: 4003
+    ports:
+      - "4003:4003"
+    depends_on:
+      - postgres
+      - redis
+
+volumes:
+  postgres_data:
+  redis_data:
+  storage_node_1_data:
+  storage_node_2_data:
+  storage_node_3_data:

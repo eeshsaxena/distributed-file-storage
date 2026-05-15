@@ -8,7 +8,7 @@ The implementation uses TypeScript with Node.js for the backend services, Postgr
 
 ## Tasks
 
-- [ ] 1. Set up project structure and testing framework
+- [x] 1. Set up project structure and testing framework
   - Initialize TypeScript project with Node.js
   - Configure Jest testing framework
   - Install and configure fast-check for property-based testing
@@ -17,8 +17,8 @@ The implementation uses TypeScript with Node.js for the backend services, Postgr
   - Configure Docker Compose for local development environment
   - _Requirements: All (foundation for implementation)_
 
-- [ ] 2. Implement Chunk Manager core functionality
-  - [ ] 2.1 Create ChunkManager interface and implementation
+- [x] 2. Implement Chunk Manager core functionality
+  - [x] 2.1 Create ChunkManager interface and implementation
     - Define TypeScript interfaces: `ChunkManager`, `ChunkMetadata`
     - Implement `chunkFile()` method to split files into 8MB chunks
     - Implement `assembleFile()` method to reassemble chunks
@@ -26,48 +26,48 @@ The implementation uses TypeScript with Node.js for the backend services, Postgr
     - Use streaming API for memory-efficient processing
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
 
-  - [ ]* 2.2 Write property test for chunk size correctness
+  - [x]* 2.2 Write property test for chunk size correctness
     - **Property 1: Chunking produces correct chunk sizes**
     - **Validates: Requirements 1.1, 1.2**
     - Generate random files (0 bytes to 100MB)
     - Verify all chunks except last are exactly 8MB
     - Verify last chunk is at most 8MB
 
-  - [ ]* 2.3 Write property test for SHA-256 hash generation
+  - [x]* 2.3 Write property test for SHA-256 hash generation
     - **Property 2: All chunks have SHA-256 content hashes**
     - **Validates: Requirements 1.3**
     - Generate random files
     - Verify every chunk has valid 64-character hex hash
 
-  - [ ]* 2.4 Write property test for chunk metadata completeness
+  - [x]* 2.4 Write property test for chunk metadata completeness
     - **Property 3: Chunk metadata contains required fields**
     - **Validates: Requirements 1.4**
     - Generate random files
     - Verify metadata includes fileId, sequenceNumber, size, contentHash
 
-  - [ ]* 2.5 Write property test for chunk-reassemble round-trip
+  - [x]* 2.5 Write property test for chunk-reassemble round-trip
     - **Property 4: Chunk-reassemble round-trip preserves file**
     - **Validates: Requirements 1.5**
     - Generate random files
     - Chunk, reassemble, verify byte-for-byte equality
 
-  - [ ]* 2.6 Write property test for chunk-reassemble-chunk hash preservation
+  - [x]* 2.6 Write property test for chunk-reassemble-chunk hash preservation
     - **Property 5: Chunk-reassemble-chunk preserves hashes**
     - **Validates: Requirements 1.6**
     - Generate random files
     - Chunk, reassemble, chunk again, verify hashes match at each position
 
-  - [ ]* 2.7 Write unit tests for Chunk Manager edge cases
+  - [x]* 2.7 Write unit tests for Chunk Manager edge cases
     - Test empty file (0 bytes)
     - Test exact 8MB file
     - Test single-byte file
     - Test hash mismatch detection
 
-- [ ] 3. Checkpoint - Ensure all tests pass
+- [x] 3. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 4. Implement Storage Node component
-  - [ ] 4.1 Create StorageNode interface and implementation
+- [x] 4. Implement Storage Node component
+  - [x] 4.1 Create StorageNode interface and implementation
     - Define TypeScript interfaces: `StorageNode`, `NodeHealth`
     - Implement `writeChunk()` method to store chunks on disk
     - Implement `readChunk()` method to retrieve chunks
@@ -77,34 +77,34 @@ The implementation uses TypeScript with Node.js for the backend services, Postgr
     - Organize disk storage with hash-prefix subdirectories
     - _Requirements: 2.1, 2.5, 8.1, 8.6_
 
-  - [ ]* 4.2 Write unit tests for Storage Node operations
+  - [x]* 4.2 Write unit tests for Storage Node operations
     - Test write and read operations
     - Test chunk deletion
     - Test integrity verification
     - Test health metrics reporting
     - Test disk organization
 
-- [ ] 5. Implement Metadata Store schema and operations
-  - [ ] 5.1 Create PostgreSQL database schema
+- [x] 5. Implement Metadata Store schema and operations
+  - [x] 5.1 Create PostgreSQL database schema
     - Create tables: `files`, `file_versions`, `chunks`, `chunk_replicas`, `upload_sessions`, `storage_nodes`, `file_permissions`, `access_audit_log`
     - Define primary keys, foreign keys, and indexes as specified in design
     - Create migration scripts
     - _Requirements: 1.4, 11.1, 11.2, 11.3_
 
-  - [ ] 5.2 Implement Metadata Store client interface
+  - [x] 5.2 Implement Metadata Store client interface
     - Define TypeScript interfaces for all metadata models
     - Implement CRUD operations for each table
     - Implement transaction support for atomic operations
     - Implement query methods for common access patterns
     - _Requirements: 11.1, 11.2, 11.3_
 
-  - [ ]* 5.3 Write integration tests for Metadata Store
+  - [x]* 5.3 Write integration tests for Metadata Store
     - Test transaction atomicity
     - Test foreign key constraints
     - Test concurrent access scenarios
     - Test query performance
 
-- [ ] 6. Implement Consistent Hashing Ring
+- [-] 6. Implement Consistent Hashing Ring
   - [ ] 6.1 Create ConsistentHashRing implementation
     - Define TypeScript interface: `ConsistentHashRing`
     - Implement `addNode()` method with virtual nodes (150 per physical node)
