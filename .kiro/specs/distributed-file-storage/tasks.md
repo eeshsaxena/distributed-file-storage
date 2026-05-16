@@ -104,8 +104,8 @@ The implementation uses TypeScript with Node.js for the backend services, Postgr
     - Test concurrent access scenarios
     - Test query performance
 
-- [-] 6. Implement Consistent Hashing Ring
-  - [ ] 6.1 Create ConsistentHashRing implementation
+- [x] 6. Implement Consistent Hashing Ring
+  - [x] 6.1 Create ConsistentHashRing implementation
     - Define TypeScript interface: `ConsistentHashRing`
     - Implement `addNode()` method with virtual nodes (150 per physical node)
     - Implement `removeNode()` method
@@ -113,21 +113,21 @@ The implementation uses TypeScript with Node.js for the backend services, Postgr
     - Use SHA-256 for hash ring positioning
     - _Requirements: 2.1, 2.2, 8.2, 8.4_
 
-  - [ ]* 6.2 Write property test for load balancing
+  - [x]* 6.2 Write property test for load balancing
     - **Property 23: Load balancing maintains utilization variance**
     - **Validates: Requirements 8.4**
     - Generate sets of chunks and storage nodes
     - Distribute chunks using consistent hashing
     - Verify utilization variance across nodes is within 10%
 
-  - [ ]* 6.3 Write unit tests for Consistent Hashing Ring
+  - [x]* 6.3 Write unit tests for Consistent Hashing Ring
     - Test node addition and removal
     - Test virtual node distribution
     - Test finding N distinct nodes
     - Test minimal data movement when nodes change
 
-- [ ] 7. Implement Replication Service
-  - [ ] 7.1 Create ReplicationService interface and implementation
+- [x] 7. Implement Replication Service
+  - [x] 7.1 Create ReplicationService interface and implementation
     - Define TypeScript interfaces: `ReplicationService`, `ReplicaLocation`, `ReplicaHealth`
     - Implement `replicateChunk()` method with quorum writes (W=2)
     - Implement `selectStorageNodes()` using consistent hashing
@@ -136,21 +136,21 @@ The implementation uses TypeScript with Node.js for the backend services, Postgr
     - Integrate with ConsistentHashRing for node selection
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6_
 
-  - [ ]* 7.2 Write property test for availability zone preference
+  - [x]* 7.2 Write property test for availability zone preference
     - **Property 6: Node selection prefers different availability zones**
     - **Validates: Requirements 2.2**
     - Generate storage nodes with multiple availability zones
     - Select N nodes for replication
     - Verify nodes from different AZs are preferred when available
 
-  - [ ]* 7.3 Write integration tests for Replication Service
+  - [x]* 7.3 Write integration tests for Replication Service
     - Test chunk replication to 3 distinct nodes
     - Test quorum write behavior
     - Test replica health verification
     - Test re-replication when replica count drops
     - Test node failure detection and recovery
 
-- [ ] 8. Checkpoint - Ensure all tests pass
+- [x] 8. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 9. Implement Deduplication Engine

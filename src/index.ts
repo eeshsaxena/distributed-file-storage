@@ -12,3 +12,4 @@ export { ChunkManagerImpl } from './chunk-manager';
 export { StorageNodeImpl } from './storage-node';
 export { MetadataStoreImpl } from './metadata-store';
 export { ConsistentHashRingImpl } from './consistent-hash-ring';
+export { ReplicationServiceImpl } from './replication-service';
