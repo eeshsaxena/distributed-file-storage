@@ -118,6 +118,7 @@ export interface StorageNodeRecord {
   registeredAt: Date;
   lastHeartbeat: Date;
   virtualNodeIds?: string[];
+  networkLatency?: number;     // Milliseconds — reported by health metrics
 }
 
 export interface UploadSessionRecord {

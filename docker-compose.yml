@@ -1,6 +1,35 @@
 version: '3.8'
 
 services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: docker/api-gateway/Dockerfile
+    container_name: dfs-api-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: distributed_file_storage
+      DB_USER: dfs_user
+      DB_PASSWORD: dfs_password
+      REDIS_URL: redis://redis:6379
+      HSM_URL: http://mock-hsm:3001
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mock-hsm:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   postgres:
     image: postgres:16-alpine
     container_name: dfs-postgres
